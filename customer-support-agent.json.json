@@ -1,0 +1,163 @@
+{
+  "name": "customer-support-agent.json",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        -64,
+        0
+      ],
+      "id": "f5c1a106-0fc9-4b53-a3f8-307e592dded2",
+      "name": "When chat message received",
+      "webhookId": "da877ae4-c010-4dc7-a3c7-dd5664401a72"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Tum \"Karachi Fashion Store\" ke customer support agent ho.\nHar sawal ka jawab dene se pehle Google Sheets tool use karo aur FAQ sheet ke rows check karo.\nJawab sirf sheet ke Answer column se do. Apni taraf se koi cheez na banao.\nCustomer se Roman Urdu mein polite aur chhota jawab do.\nAgar sheet mein jawab na mile to kaho: \"Main yeh humari team se confirm karwa kar bataunga.\""
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        224,
+        0
+      ],
+      "id": "c2492471-4272-44c9-b6dc-7bad4b798602",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        96,
+        208
+      ],
+      "id": "56be2fbc-3510-4f43-8841-4325e3933866",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "h6Ljsctekxnegkal",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        256,
+        208
+      ],
+      "id": "2b4e555b-fdcb-4e34-8c70-fccd6dbb02cb",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1QMJnGV_a6CAoKUp7W9dcYqmGQo_-rNGOqH47RW2teH8",
+          "mode": "list",
+          "cachedResultName": "Shop FAQ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1QMJnGV_a6CAoKUp7W9dcYqmGQo_-rNGOqH47RW2teH8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1QMJnGV_a6CAoKUp7W9dcYqmGQo_-rNGOqH47RW2teH8/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        528,
+        208
+      ],
+      "id": "e7e04ab2-147c-4e05-a662-a2a9bec46add",
+      "name": "Get row(s) in sheet in Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "DC15JbWlJdzo4t61",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        []
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet in Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": true
+  },
+  "versionId": "992bbd37-dd3c-4052-b7e8-7771b9827e6a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "bb341affc185547a819dcc6f48dc73bd8f2e8ba2f9f6fd18e59a71945b23d0b6"
+  },
+  "nodeGroups": [],
+  "id": "3MHYGin2bnZOZjpg",
+  "tags": []
+}
