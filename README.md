@@ -2,6 +2,11 @@
 
 An AI customer support agent built with n8n. It answers customer questions using a Google Sheets FAQ and replies in Roman Urdu. If the answer is not in the FAQ, it says it will confirm with the team instead of making things up.
 
+## Demo
+
+![Workflow](workflow.png)
+
+
 ## Features
 - Answers customer questions from a Google Sheets FAQ
 - Remembers the conversation (Simple Memory)
